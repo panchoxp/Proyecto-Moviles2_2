@@ -1,29 +1,47 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, Button } from 'react-native';
+import { StyleSheet, Text, View, Image, Button, ImageBackground } from 'react-native';
 
-export default function WelcomeScreen({navigation}:any) {
+export default function WelcomeScreen({ navigation }: any) {
   return (
-    <View style={styles.container}>
-      <Text style={styles.welcomeText}>Welcome</Text>
-      <Image 
-        source={{ uri: 'https://static.vecteezy.com/system/resources/previews/020/194/761/non_2x/bank-icon-for-your-website-design-logo-app-ui-free-vector.jpg' }}
-        style={styles.image}
-      />
-      <View style={styles.buttonContainer}>
-        <Button title="Login" onPress={()=> navigation.navigate('Login')} />
-        <Button title="Registro" onPress={()=> navigation.navigate('Registro')} />
+    <ImageBackground
+      source={{ uri: 'https://static.vecteezy.com/system/resources/previews/020/194/761/non_2x/bank-icon-for-your-website-design-logo-app-ui-free-vector.jpg' }}
+      style={styles.backgroundImage}
+    >
+      <View style={styles.overlay}>
+        <View style={styles.container}>
+          <Text style={styles.welcomeText}>Welcome</Text>
+          <Image
+            source={{ uri: 'https://static.vecteezy.com/system/resources/previews/020/194/761/non_2x/bank-icon-for-your-website-design-logo-app-ui-free-vector.jpg' }}
+            style={styles.image}
+          />
+          <View style={styles.buttonContainer}>
+            <Button title="Login" onPress={() => navigation.navigate('Login')} color="#007BFF" />
+            <Button title="Registro" onPress={() => navigation.navigate('Registro')} color="#007BFF" />
+          </View>
+          <Text style={styles.nameText}>Francisco Sucuy</Text>
+        </View>
       </View>
-      <Text style={styles.nameText}>Francisco Sucuy</Text>
-    </View>
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  backgroundImage: {
     flex: 1,
+    resizeMode: 'cover',
+  },
+  overlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 16,
+  },
+  container: {
+    width: '80%',
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    borderRadius: 10,
+    padding: 20,
+    alignItems: 'center',
   },
   welcomeText: {
     fontSize: 24,
@@ -38,7 +56,7 @@ const styles = StyleSheet.create({
   buttonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    width: '60%',
+    width: '80%',
     marginBottom: 20,
   },
   nameText: {
@@ -46,3 +64,4 @@ const styles = StyleSheet.create({
     color: 'gray',
   },
 });
+

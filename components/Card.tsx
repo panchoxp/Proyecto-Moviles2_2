@@ -3,16 +3,16 @@ import React from 'react'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 
 export default function Card(props: any) {
-   //console.log(props);
+    //console.log(props);
 
     function mensaje(usuarios: any) {
         Alert.alert("INFORMACIÓN", "El tipo de operacion es:" + usuarios.tipo)
     }
 
-    return (      
-        
-        <TouchableOpacity onPress={() => mensaje(props.data)}>            
-            <View style={styles.container}>
+    return (
+
+        <TouchableOpacity onPress={() => mensaje(props.data)}>
+            <View style={styles.container}>                
                 <Text style={styles.txt} > id: {props.data.id}</Text>
                 <Text style={styles.txt}>monto: {props.data.monto}</Text>
                 <Text style={styles.txt}>tipo: {props.data.tipo}</Text>

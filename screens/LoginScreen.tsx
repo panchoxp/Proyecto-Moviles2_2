@@ -1,4 +1,4 @@
-import { Button, StyleSheet, Text, View, TextInput, Alert } from 'react-native';
+import { Alert, Button, ImageBackground, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import React, { useState } from 'react';
 //loggin firebase
 import { signInWithEmailAndPassword } from 'firebase/auth';
@@ -10,80 +10,115 @@ export default function LoginScreen({ navigation }: any) {
   const [contrasenia, setContrasenia] = useState('');
 
   function login() {
-    //const auth = getAuth();//se corta para config
     signInWithEmailAndPassword(auth, correo, contrasenia)
       .then((userCredential) => {
-        // Signed in 
         const user = userCredential.user;
         console.log(user);
-        navigation.navigate("MyTabs");//navegacion 
-        // ...
+        navigation.navigate("MyTabs");
       })
       .catch((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
+        //console.log(errorCode);
 
         switch (errorCode) {
           case 'auth/invalid-credential':
-            Alert.alert('Error', 'Correo invalido.');
+            Alert.alert('Error', 'Usuario no existente.');
             break;
-          case 'auth/user-not-found':
-            Alert.alert('Error', 'No se encontró un usuario con ese correo.');
+          case 'auth/invalid-email':
+            Alert.alert('Error', 'Correo inválido.');
             break;
-          case 'auth/wrong-password':
+          case 'auth/missing-password':
+            Alert.alert('Error', 'Ingrese una contraseña.');
+            break;
+          case 'auth/too-many-requests':
             Alert.alert('Error', 'La contraseña es incorrecta.');
             break;
           default:
-            Alert.alert('Error', "usuario o contraseña incorrecta");
+            Alert.alert(errorMessage);
             break;
         }
       });
   }
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Login</Text>
+    <ImageBackground
+      source={{ uri: 'https://static.vecteezy.com/system/resources/previews/020/194/761/non_2x/bank-icon-for-your-website-design-logo-app-ui-free-vector.jpg' }}
+      style={styles.backgroundImage}
+    >
+      <View style={styles.overlay}>
+        <View style={styles.container}>
+          <Text style={styles.title}>Login</Text>
 
-      <TextInput
-        style={styles.input}
-        placeholder='Ingresa tu correo electrónico'
-        onChangeText={(texto) => setCorreo(texto)}
-        keyboardType='email-address'
-      />
-      <TextInput
-        style={styles.input}
-        placeholder='Ingresa contraseña'
-        onChangeText={(texto) => setContrasenia(texto)}
-        secureTextEntry
-      />
+          <TextInput
+            style={styles.input}
+            placeholder='Ingresa tu correo electrónico'
+            placeholderTextColor="#aaa"
+            onChangeText={(texto) => setCorreo(texto)}
+            keyboardType='email-address'
+            value={correo}
+          />
+          <TextInput
+            style={styles.input}
+            placeholder='Ingresa contraseña'
+            placeholderTextColor="#aaa"
+            onChangeText={(texto) => setContrasenia(texto)}
+            secureTextEntry
+            value={contrasenia}
+          />
 
-      <Button title='Ingresar' onPress={() => login()} />      
-    </View>
+          <TouchableOpacity style={styles.button} onPress={login}>
+            <Text style={styles.buttonText}>Ingresar</Text>
+          </TouchableOpacity>
+          <Button title='Cancelar' onPress={() => navigation.navigate('Welcome')} color="#ff6347" />
+        </View>
+      </View>
+    </ImageBackground>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  backgroundImage: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
+    resizeMode: 'cover',
+  },
+  overlay: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.5)',
     justifyContent: 'center',
+    alignItems: 'center',
+  },
+  container: {
+    width: '80%',
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    borderRadius: 10,
+    padding: 20,
+    alignItems: 'center',
   },
   title: {
-    fontSize: 30,
+    fontSize: 24,
+    fontWeight: 'bold',
     marginBottom: 20,
   },
   input: {
-    width: '80%',
-    height: 40,
-    borderColor: '#ccc',
-    borderWidth: 1,
-    marginBottom: 20,
-    paddingHorizontal: 10,
+    backgroundColor: '#f0f0f0',
+    height: 50,
+    width: '100%',
+    marginBottom: 10,
+    borderRadius: 5,
+    paddingHorizontal: 15,
+    fontSize: 16,
   },
-  registerLink: {
+  button: {
+    backgroundColor: 'rgb(0, 216, 255)',
+    borderRadius: 5,
+    padding: 15,
+    width: '100%',
+    alignItems: 'center',
     marginTop: 20,
-    color: 'blue',
-    textDecorationLine: 'underline',
+  },
+  buttonText: {
+    color: '#000',
+    fontSize: 18,
   },
 });
