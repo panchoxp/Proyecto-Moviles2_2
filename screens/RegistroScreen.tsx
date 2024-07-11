@@ -11,10 +11,12 @@ export default function RegistroScreen({ navigation }: any) {
     const [correo, setCorreo] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [ci, setci] = useState('')
 
     function guardarUsuario() {
         set(ref(db, 'usuarios/' + usuario), {
             correo: correo,
+            ci:ci
         });
     }
 
@@ -63,6 +65,13 @@ export default function RegistroScreen({ navigation }: any) {
                         placeholderTextColor="#aaa"
                         value={usuario}
                         onChangeText={(texto) => setUsuario(texto)}
+                    />
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Cedula"
+                        placeholderTextColor="#aaa"
+                        value={ci}
+                        onChangeText={setci}
                     />
                     <TextInput
                         style={styles.input}
